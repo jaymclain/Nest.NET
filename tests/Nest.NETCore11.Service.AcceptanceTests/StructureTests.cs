@@ -1,11 +1,9 @@
+using System.Linq;
+using Nest.NET.Service;
 using Xunit;
 
-namespace Nest.NETCore11.Service.AcceptanceTests
+namespace Nest.Service.AcceptanceTests
 {
-    using System.Linq;
-    using Nest.NET.Service;
-    using Rachio.NETCore11.Service.AcceptanceTests;
-
     public class StructureTests
     {
         [Fact]

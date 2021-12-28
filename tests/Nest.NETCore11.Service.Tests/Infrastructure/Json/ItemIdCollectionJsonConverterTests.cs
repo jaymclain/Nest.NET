@@ -5,7 +5,7 @@ using Nest.NET.Service.Model;
 using Newtonsoft.Json;
 using Xunit;
 
-namespace Nest.NETCore11.Service.UnitTests.Infrastructure.Json
+namespace Nest.Service.UnitTests.Infrastructure.Json
 {
     public class ItemIdCollectionJsonConverterTests
     {
@@ -30,11 +30,11 @@ namespace Nest.NETCore11.Service.UnitTests.Infrastructure.Json
                 .ToArray();
 
             // Assert
-            Assert.Equal(response.Length, 2);
-            Assert.Equal(response.First().Id, "aNOFUasMKI98ilLy8GQRmlwrdERVd1TSSfxFnj4pGLM560U5C5xqEw");
-            Assert.Equal(response.First().Name, "Vacation Home");
-            Assert.Equal(response.Skip(1).First().Id, "sN4-Q97UhX6Plmqwv6eTxVwrdERVd1TSSfxFnj4pGLM560U5C5xqEw");
-            Assert.Equal(response.Skip(1).First().Name, "Structure 1");
+            Assert.Equal(2, response.Length);
+            Assert.Equal("aNOFUasMKI98ilLy8GQRmlwrdERVd1TSSfxFnj4pGLM560U5C5xqEw", response.First().Id);
+            Assert.Equal("Vacation Home", response.First().Name);
+            Assert.Equal("sN4-Q97UhX6Plmqwv6eTxVwrdERVd1TSSfxFnj4pGLM560U5C5xqEw", response.Skip(1).First().Id);
+            Assert.Equal("Structure 1", response.Skip(1).First().Name);
         }
 
         [Fact]
@@ -57,11 +57,11 @@ namespace Nest.NETCore11.Service.UnitTests.Infrastructure.Json
                     Json, new ItemIdCollectionJsonConverter<List<Structure>>());
 
             // Assert
-            Assert.Equal(response.Count, 2);
-            Assert.Equal(response.First().Id, "aNOFUasMKI98ilLy8GQRmlwrdERVd1TSSfxFnj4pGLM560U5C5xqEw");
-            Assert.Equal(response.First().Name, "Vacation Home");
-            Assert.Equal(response.Skip(1).First().Id, "sN4-Q97UhX6Plmqwv6eTxVwrdERVd1TSSfxFnj4pGLM560U5C5xqEw");
-            Assert.Equal(response.Skip(1).First().Name, "Structure 1");
+            Assert.Equal(2, response.Count);
+            Assert.Equal("aNOFUasMKI98ilLy8GQRmlwrdERVd1TSSfxFnj4pGLM560U5C5xqEw", response.First().Id);
+            Assert.Equal("Vacation Home", response.First().Name);
+            Assert.Equal("sN4-Q97UhX6Plmqwv6eTxVwrdERVd1TSSfxFnj4pGLM560U5C5xqEw", response.Skip(1).First().Id);
+            Assert.Equal("Structure 1", response.Skip(1).First().Name);
         }
 
         [Fact]
@@ -94,13 +94,13 @@ namespace Nest.NETCore11.Service.UnitTests.Infrastructure.Json
                 .ToArray();
 
             // Assert
-            Assert.Equal(response.Length, 1);
-            Assert.Equal(response.First().Id, "aNOFUasMKI98ilLy8GQRmlwrdERVd1TSSfxFnj4pGLM560U5C5xqEw");
-            Assert.Equal(response.First().Name, "Vacation Home");
-            Assert.Equal(response.First().CountryCode, "US");
-            Assert.Equal(response.First().TimeZone, "America/Chicago");
-            Assert.Equal(response.First().Away, "home");
-            Assert.Equal(response.First().Wheres.Count(), 2);
+            Assert.Single(response);
+            Assert.Equal("aNOFUasMKI98ilLy8GQRmlwrdERVd1TSSfxFnj4pGLM560U5C5xqEw", response.First().Id);
+            Assert.Equal("Vacation Home", response.First().Name);
+            Assert.Equal("US", response.First().CountryCode);
+            Assert.Equal("America/Chicago", response.First().TimeZone);
+            Assert.Equal("home", response.First().Away);
+            Assert.Equal(2, response.First().Wheres.Count());
         }
     }
 }

@@ -1,9 +1,8 @@
 ﻿using System.IO;
+using Nest.NET.Service;
 
-namespace Rachio.NETCore11.Service.AcceptanceTests
+namespace Nest.Service.AcceptanceTests
 {
-    using Nest.NET.Service;
-
     public class TestServiceOptions : ServiceOptions
     {
         public TestServiceOptions()

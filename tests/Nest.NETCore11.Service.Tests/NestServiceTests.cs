@@ -1,7 +1,7 @@
 ﻿using Nest.NET.Service;
 using Xunit;
 
-namespace Nest.NETCore11.Service.UnitTests
+namespace Nest.Service.UnitTests
 {
     public class NestServiceTests
     {

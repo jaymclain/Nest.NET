@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26430.14
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7CB5EAA7-6A21-48DD-995E-8C8BEBBEEC10}"
 EndProject
@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nest.NET.Service", "src\Nes
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{A959E338-9A67-4351-8698-0F62ACF9175F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nest.NETCore11.Service.UnitTests", "tests\Nest.NETCore11.Service.Tests\Nest.NETCore11.Service.UnitTests.csproj", "{397CE98F-C8C8-4002-B33D-33A9B90618E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nest.Service.UnitTests", "tests\Nest.NETCore11.Service.Tests\Nest.Service.UnitTests.csproj", "{397CE98F-C8C8-4002-B33D-33A9B90618E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nest.NETCore11.Service.AcceptanceTests", "tests\Nest.NETCore11.Service.AcceptanceTests\Nest.NETCore11.Service.AcceptanceTests.csproj", "{6EA16483-7EA1-4DD5-9F7C-47AF836B6A02}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nest.Service.AcceptanceTests", "tests\Nest.NETCore11.Service.AcceptanceTests\Nest.Service.AcceptanceTests.csproj", "{6EA16483-7EA1-4DD5-9F7C-47AF836B6A02}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,5 +39,8 @@ Global
 		{5F4E989B-BC5C-4925-A7A7-9DF3E3EDA279} = {7CB5EAA7-6A21-48DD-995E-8C8BEBBEEC10}
 		{397CE98F-C8C8-4002-B33D-33A9B90618E1} = {A959E338-9A67-4351-8698-0F62ACF9175F}
 		{6EA16483-7EA1-4DD5-9F7C-47AF836B6A02} = {A959E338-9A67-4351-8698-0F62ACF9175F}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A4460717-A915-4427-95A3-60A46AC3542F}
 	EndGlobalSection
 EndGlobal
