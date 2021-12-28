@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nest.NET.Service", "src\Nes
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{A959E338-9A67-4351-8698-0F62ACF9175F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nest.Service.UnitTests", "tests\Nest.NETCore11.Service.Tests\Nest.Service.UnitTests.csproj", "{397CE98F-C8C8-4002-B33D-33A9B90618E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nest.Service.UnitTests", "tests\Nest.Service.Tests\Nest.Service.UnitTests.csproj", "{397CE98F-C8C8-4002-B33D-33A9B90618E1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nest.Service.AcceptanceTests", "tests\Nest.NETCore11.Service.AcceptanceTests\Nest.Service.AcceptanceTests.csproj", "{6EA16483-7EA1-4DD5-9F7C-47AF836B6A02}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nest.Service.AcceptanceTests", "tests\Nest.Service.AcceptanceTests\Nest.Service.AcceptanceTests.csproj", "{6EA16483-7EA1-4DD5-9F7C-47AF836B6A02}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
