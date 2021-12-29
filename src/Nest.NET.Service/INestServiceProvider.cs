@@ -34,6 +34,6 @@ namespace Nest.NET.Service
 {
     internal interface INestServiceProvider
     {
-        Task<T> GetAsync<T>(string entity, string entityId = null, string action = null, object parameters = null);
+        Task<T> GetAsync<T>(string entity, string? entityId = null, string? action = null, object? parameters = null);
     }
 }

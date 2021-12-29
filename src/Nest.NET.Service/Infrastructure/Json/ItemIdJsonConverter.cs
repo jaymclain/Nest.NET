@@ -19,19 +19,19 @@ namespace Nest.NET.Service.Infrastructure.Json
             return _objectType.GetTypeInfo().IsAssignableFrom(objectType);
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, Newtonsoft.Json.JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type objectType, object? existingValue, Newtonsoft.Json.JsonSerializer serializer)
         {
-            var result = (T)Activator.CreateInstance(_objectType);
+            var result = Activator.CreateInstance(_objectType) as T;
+            if (result == null)
+                throw new InvalidOperationException();
 
             if (reader.TokenType == JsonToken.String)
-            {
-                result.Id = (string)reader.Value;
-            }
+                result.Id = (string?)reader.Value ?? string.Empty;
 
             return result;
         }
 
-        public override void WriteJson(JsonWriter writer, object value, Newtonsoft.Json.JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, object? value, Newtonsoft.Json.JsonSerializer serializer)
         {
             throw new NotImplementedException();
         }

@@ -69,15 +69,18 @@ namespace Nest.NET.Service.Infrastructure.Json
             return _collectionType.GetTypeInfo().IsAssignableFrom(objectType);
         }
 
-        public override void WriteJson(JsonWriter writer, object value, Newtonsoft.Json.JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, object? value, Newtonsoft.Json.JsonSerializer serializer)
         {
             throw new NotSupportedException($"{GetType().Name} can only for deserializing.");
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, Newtonsoft.Json.JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type objectType, object? existingValue, Newtonsoft.Json.JsonSerializer serializer)
         {
             var collectionType = typeof(List<>).MakeGenericType(_collectionItemType);
-            var result = (IList)Activator.CreateInstance(collectionType);
+            
+            var result = Activator.CreateInstance(collectionType) as IList;
+            if (result == null)
+                throw new InvalidOperationException();
 
             if (reader.TokenType == JsonToken.StartObject)
             {

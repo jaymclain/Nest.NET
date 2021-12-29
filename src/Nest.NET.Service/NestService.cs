@@ -29,11 +29,10 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System.Collections.Generic;
+using Nest.NET.Service.Model;
 
 namespace Nest.NET.Service
 {
-    using Nest.NET.Service.Model;
-
     public class NestService
     {
         private const string StructuresEntity = "structures";

@@ -32,6 +32,6 @@ namespace Nest.NET.Service
 {
     public class ServiceOptions
     {
-        public string AccessToken { get; set; }
+        public string AccessToken { get; set; } = null!;
     }
 }

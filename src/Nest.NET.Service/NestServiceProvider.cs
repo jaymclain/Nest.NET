@@ -28,6 +28,11 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using Nest.NET.Service.Infrastructure;
@@ -35,12 +40,6 @@ using Nest.NET.Service.Infrastructure.Json;
 
 namespace Nest.NET.Service
 {
-    using System;
-    using System.Linq;
-    using System.Reflection;
-    using System.Text;
-    using System.Threading.Tasks;
-
     internal class NestServiceProvider : INestServiceProvider
     {
         private const string ServiceUrl = "https://developer-api.nest.com/";
@@ -64,27 +63,23 @@ namespace Nest.NET.Service
                     {
                         if (q.Length > 0)
                         {
-                            q.Append("&");
+                            q.Append('&');
                         }
 
                         return q.Append($"{p.Name}={p.GetValue(parameters)}");
                     }).ToString();
         }
         
-        public Task<T> GetAsync<T>(string entity, string entityId, string action, object parameters)
+        public Task<T> GetAsync<T>(string entity, string? entityId, string? action, object? parameters)
         {
             var url = new Uri(ServiceUrl);
             url = new Uri(url, $"{entity}/");
 
             if (!string.IsNullOrWhiteSpace(entityId))
-            {
                 url = new Uri(url, $"{entityId}/");
-            }
 
             if (!string.IsNullOrWhiteSpace(action))
-            {
                 url = new Uri(url, $"{action}");
-            }
 
             if (parameters != null)
             {

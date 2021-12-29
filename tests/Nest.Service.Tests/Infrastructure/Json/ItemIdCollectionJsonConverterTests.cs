@@ -3,6 +3,7 @@ using System.Linq;
 using Nest.NET.Service.Infrastructure.Json;
 using Nest.NET.Service.Model;
 using Newtonsoft.Json;
+using Shouldly;
 using Xunit;
 
 namespace Nest.Service.UnitTests.Infrastructure.Json
@@ -27,14 +28,15 @@ namespace Nest.Service.UnitTests.Infrastructure.Json
             // Act
             var response = JsonConvert.DeserializeObject<IEnumerable<Structure>>(
                     Json, new ItemIdCollectionJsonConverter<IEnumerable<Structure>>())
-                .ToArray();
+                ?.ToArray();
 
             // Assert
-            Assert.Equal(2, response.Length);
-            Assert.Equal("aNOFUasMKI98ilLy8GQRmlwrdERVd1TSSfxFnj4pGLM560U5C5xqEw", response.First().Id);
-            Assert.Equal("Vacation Home", response.First().Name);
-            Assert.Equal("sN4-Q97UhX6Plmqwv6eTxVwrdERVd1TSSfxFnj4pGLM560U5C5xqEw", response.Skip(1).First().Id);
-            Assert.Equal("Structure 1", response.Skip(1).First().Name);
+            response.ShouldNotBeEmpty();
+            response.Length.ShouldBe(2);
+            response[0].Id.ShouldBe("aNOFUasMKI98ilLy8GQRmlwrdERVd1TSSfxFnj4pGLM560U5C5xqEw");
+            response[0].Name.ShouldBe("Vacation Home");
+            response[1].Id.ShouldBe("sN4-Q97UhX6Plmqwv6eTxVwrdERVd1TSSfxFnj4pGLM560U5C5xqEw");
+            response[1].Name.ShouldBe("Structure 1");
         }
 
         [Fact]
@@ -57,11 +59,12 @@ namespace Nest.Service.UnitTests.Infrastructure.Json
                     Json, new ItemIdCollectionJsonConverter<List<Structure>>());
 
             // Assert
-            Assert.Equal(2, response.Count);
-            Assert.Equal("aNOFUasMKI98ilLy8GQRmlwrdERVd1TSSfxFnj4pGLM560U5C5xqEw", response.First().Id);
-            Assert.Equal("Vacation Home", response.First().Name);
-            Assert.Equal("sN4-Q97UhX6Plmqwv6eTxVwrdERVd1TSSfxFnj4pGLM560U5C5xqEw", response.Skip(1).First().Id);
-            Assert.Equal("Structure 1", response.Skip(1).First().Name);
+            response.ShouldNotBeEmpty();
+            response.Count.ShouldBe(2);
+            response[0].Id.ShouldBe("aNOFUasMKI98ilLy8GQRmlwrdERVd1TSSfxFnj4pGLM560U5C5xqEw");
+            response[0].Name.ShouldBe("Vacation Home");
+            response[1].Id.ShouldBe("sN4-Q97UhX6Plmqwv6eTxVwrdERVd1TSSfxFnj4pGLM560U5C5xqEw");
+            response[1].Name.ShouldBe("Structure 1");
         }
 
         [Fact]
@@ -91,16 +94,16 @@ namespace Nest.Service.UnitTests.Infrastructure.Json
             // Act
             var response = JsonConvert.DeserializeObject<IEnumerable<Structure>>(
                     Json, new ItemIdCollectionJsonConverter<IEnumerable<Structure>>())
-                .ToArray();
+                ?.ToArray();
 
             // Assert
-            Assert.Single(response);
-            Assert.Equal("aNOFUasMKI98ilLy8GQRmlwrdERVd1TSSfxFnj4pGLM560U5C5xqEw", response.First().Id);
-            Assert.Equal("Vacation Home", response.First().Name);
-            Assert.Equal("US", response.First().CountryCode);
-            Assert.Equal("America/Chicago", response.First().TimeZone);
-            Assert.Equal("home", response.First().Away);
-            Assert.Equal(2, response.First().Wheres.Count());
+            response.ShouldNotBeEmpty();
+            response[0].Id.ShouldBe("aNOFUasMKI98ilLy8GQRmlwrdERVd1TSSfxFnj4pGLM560U5C5xqEw");
+            response[0].Name.ShouldBe("Vacation Home");
+            response[0].CountryCode.ShouldBe("US");
+            response[0].TimeZone.ShouldBe("America/Chicago");
+            response[0].Away.ShouldBe("home");
+            response[0].Wheres.Count().ShouldBe(2);
         }
     }
 }

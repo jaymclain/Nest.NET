@@ -28,6 +28,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
 using System.Collections;
 using System.Reflection;
 using Newtonsoft.Json;
@@ -43,14 +44,16 @@ namespace Nest.NET.Service.Infrastructure.Json
 
         public T DeserializeObject<T>(string content)
         {
-            JsonConverter[] converters = null;
+            var converters = Array.Empty<JsonConverter>();
 
             if (typeof(IEnumerable).GetTypeInfo().IsAssignableFrom(typeof(T)))
-            {
                 converters = new JsonConverter[] { new ItemIdCollectionJsonConverter(typeof(T)) };
-            }
 
-            return JsonConvert.DeserializeObject<T>(content, converters);
+            var result = JsonConvert.DeserializeObject<T>(content, converters);
+            if (result == null)
+                throw new InvalidOperationException();
+
+            return result;
         }
     }
 }
