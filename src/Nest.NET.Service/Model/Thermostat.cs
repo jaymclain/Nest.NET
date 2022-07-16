@@ -31,10 +31,9 @@
 using Nest.NET.Service.Infrastructure.Json;
 using Newtonsoft.Json;
 
-namespace Nest.NET.Service.Model
+namespace Nest.NET.Service.Model;
+
+[JsonConverter(typeof(ItemIdJsonConverter<Thermostat>))]
+public class Thermostat : Entity
 {
-    [JsonConverter(typeof(ItemIdJsonConverter<Thermostat>))]
-    public class Thermostat : Entity
-    {
-    }
 }

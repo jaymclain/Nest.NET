@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net4.8;netstandard2.1;netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
-    <LangVersion>10.0</LangVersion>
+    <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
 
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -11,7 +11,7 @@
     <Company>HomeRun Software Systems</Company>
     <Product>Nest.NET</Product>
     <Description>.NET Library to simplify automation of your Nest devices.</Description>
-    <Version>0.3.0</Version>
+    <Version>0.4.0</Version>
     <Copyright>Copyright (c) 2017-2022 Jay McLain</Copyright>
     <PackageProjectUrl>https://github.com/jaymclain/Nest.NET</PackageProjectUrl>
     <RepositoryUrl>https://github.com/jaymclain/Nest.NET</RepositoryUrl>

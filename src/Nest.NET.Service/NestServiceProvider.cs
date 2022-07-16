@@ -38,77 +38,76 @@ using System.Net.Http.Headers;
 using Nest.NET.Service.Infrastructure;
 using Nest.NET.Service.Infrastructure.Json;
 
-namespace Nest.NET.Service
+namespace Nest.NET.Service;
+
+internal class NestServiceProvider : INestServiceProvider
 {
-    internal class NestServiceProvider : INestServiceProvider
+    private const string ServiceUrl = "https://developer-api.nest.com/";
+
+    private readonly ISerializer _serializer;
+    private readonly HttpClient _httpClient;
+
+    public NestServiceProvider(ServiceOptions options)
     {
-        private const string ServiceUrl = "https://developer-api.nest.com/";
+        _serializer = new JsonSerializer();
 
-        private readonly ISerializer _serializer;
-        private readonly HttpClient _httpClient;
+        _httpClient = new HttpClient();
+        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", options.AccessToken);
+    }
 
-        public NestServiceProvider(ServiceOptions options)
-        {
-            _serializer = new JsonSerializer();
+    private static string GetQueryStringFromParameterObject(object parameters)
+    {
+        return parameters.GetType().GetTypeInfo().DeclaredProperties.Aggregate(
+            new StringBuilder(),
+            (q, p) =>
+            {
+                if (q.Length > 0)
+                {
+                    q.Append('&');
+                }
 
-            _httpClient = new HttpClient();
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", options.AccessToken);
-        }
-
-        private static string GetQueryStringFromParameterObject(object parameters)
-        {
-            return parameters.GetType().GetTypeInfo().DeclaredProperties.Aggregate(
-                new StringBuilder(),
-                (q, p) =>
-                    {
-                        if (q.Length > 0)
-                        {
-                            q.Append('&');
-                        }
-
-                        return q.Append($"{p.Name}={p.GetValue(parameters)}");
-                    }).ToString();
-        }
+                return q.Append($"{p.Name}={p.GetValue(parameters)}");
+            }).ToString();
+    }
         
-        public Task<T> GetAsync<T>(string entity, string? entityId, string? action, object? parameters)
+    public Task<T> GetAsync<T>(string entity, string? entityId, string? action, object? parameters)
+    {
+        var url = new Uri(ServiceUrl);
+        url = new Uri(url, $"{entity}/");
+
+        if (!string.IsNullOrWhiteSpace(entityId))
+            url = new Uri(url, $"{entityId}/");
+
+        if (!string.IsNullOrWhiteSpace(action))
+            url = new Uri(url, $"{action}");
+
+        if (parameters != null)
         {
-            var url = new Uri(ServiceUrl);
-            url = new Uri(url, $"{entity}/");
-
-            if (!string.IsNullOrWhiteSpace(entityId))
-                url = new Uri(url, $"{entityId}/");
-
-            if (!string.IsNullOrWhiteSpace(action))
-                url = new Uri(url, $"{action}");
-
-            if (parameters != null)
-            {
-                var uri = new UriBuilder(url) { Query = GetQueryStringFromParameterObject(parameters) };
-                url = uri.Uri;
-            }
-
-            return GetAsync<T>(url);
+            var uri = new UriBuilder(url) { Query = GetQueryStringFromParameterObject(parameters) };
+            url = uri.Uri;
         }
 
-        private Task<T> GetAsync<T>(Uri url)
-        {
-            var response = _httpClient.GetAsync(url).Result;
-            if (!response.IsSuccessStatusCode)
-            {
-                ThrowError(response);
-            }
+        return GetAsync<T>(url);
+    }
 
-            var content = response.Content.ReadAsStringAsync().Result;
-            return Task.Run(() => _serializer.DeserializeObject<T>(content));
+    private Task<T> GetAsync<T>(Uri url)
+    {
+        var response = _httpClient.GetAsync(url).Result;
+        if (!response.IsSuccessStatusCode)
+        {
+            ThrowError(response);
         }
 
-        private void ThrowError(HttpResponseMessage response)
-        {
-            //var content = response.Content.ReadAsStringAsync().Result;
-            //var error = _serializer.DeserializeObject<Error>(content);
-            //throw new NestServiceException(error.Code, error.Message);
+        var content = response.Content.ReadAsStringAsync().Result;
+        return Task.Run(() => _serializer.DeserializeObject<T>(content));
+    }
 
-            throw new Exception("An unexpected error occurred.");
-        }
+    private void ThrowError(HttpResponseMessage response)
+    {
+        //var content = response.Content.ReadAsStringAsync().Result;
+        //var error = _serializer.DeserializeObject<Error>(content);
+        //throw new NestServiceException(error.Code, error.Message);
+
+        throw new Exception("An unexpected error occurred.");
     }
 }

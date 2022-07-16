@@ -1,13 +1,12 @@
 ﻿using System.IO;
 using Nest.NET.Service;
 
-namespace Nest.Service.AcceptanceTests
+namespace Nest.Service.AcceptanceTests;
+
+public class TestServiceOptions : ServiceOptions
 {
-    public class TestServiceOptions : ServiceOptions
+    public TestServiceOptions()
     {
-        public TestServiceOptions()
-        {
-           AccessToken = File.ReadAllText("AccessToken.txt");
-        }
+        AccessToken = File.ReadAllText("AccessToken.txt");
     }
 }

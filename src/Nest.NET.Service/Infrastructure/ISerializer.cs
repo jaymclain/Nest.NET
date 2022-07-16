@@ -28,11 +28,10 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Nest.NET.Service.Infrastructure
+namespace Nest.NET.Service.Infrastructure;
+
+internal interface ISerializer
 {
-    internal interface ISerializer
-    {
-        string Serialize(object value);
-        T DeserializeObject<T>(string content);
-    }
+    string Serialize(object value);
+    T DeserializeObject<T>(string content);
 }

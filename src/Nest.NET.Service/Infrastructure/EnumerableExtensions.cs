@@ -31,16 +31,15 @@
 using System;
 using System.Collections.Generic;
 
-namespace Nest.NET.Service.Infrastructure
+namespace Nest.NET.Service.Infrastructure;
+
+public static class EnumerableExtensions
 {
-    public static class EnumerableExtensions
+    public static void ForEach<T>(this IEnumerable<T> enumeration, Action<T> action)
     {
-        public static void ForEach<T>(this IEnumerable<T> enumeration, Action<T> action)
+        foreach (var item in enumeration)
         {
-            foreach (var item in enumeration)
-            {
-                action(item);
-            }
+            action(item);
         }
     }
 }

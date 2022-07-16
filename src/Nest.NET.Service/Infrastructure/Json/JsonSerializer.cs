@@ -33,27 +33,26 @@ using System.Collections;
 using System.Reflection;
 using Newtonsoft.Json;
 
-namespace Nest.NET.Service.Infrastructure.Json
+namespace Nest.NET.Service.Infrastructure.Json;
+
+public class JsonSerializer : ISerializer
 {
-    public class JsonSerializer : ISerializer
+    public string Serialize(object value)
     {
-        public string Serialize(object value)
-        {
-            return JsonConvert.SerializeObject(value);
-        }
+        return JsonConvert.SerializeObject(value);
+    }
 
-        public T DeserializeObject<T>(string content)
-        {
-            var converters = Array.Empty<JsonConverter>();
+    public T DeserializeObject<T>(string content)
+    {
+        var converters = Array.Empty<JsonConverter>();
 
-            if (typeof(IEnumerable).GetTypeInfo().IsAssignableFrom(typeof(T)))
-                converters = new JsonConverter[] { new ItemIdCollectionJsonConverter(typeof(T)) };
+        if (typeof(IEnumerable).GetTypeInfo().IsAssignableFrom(typeof(T)))
+            converters = new JsonConverter[] { new ItemIdCollectionJsonConverter(typeof(T)) };
 
-            var result = JsonConvert.DeserializeObject<T>(content, converters);
-            if (result == null)
-                throw new InvalidOperationException();
+        var result = JsonConvert.DeserializeObject<T>(content, converters);
+        if (result == null)
+            throw new InvalidOperationException();
 
-            return result;
-        }
+        return result;
     }
 }

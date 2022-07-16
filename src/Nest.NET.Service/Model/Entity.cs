@@ -1,7 +1,6 @@
-﻿namespace Nest.NET.Service.Model
+﻿namespace Nest.NET.Service.Model;
+
+public abstract class Entity
 {
-    public abstract class Entity
-    {
-        public string Id { get; set; } = null!;
-    }
+    public string Id { get; set; } = null!;
 }

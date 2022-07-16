@@ -28,10 +28,9 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Nest.NET.Service
+namespace Nest.NET.Service;
+
+public class ServiceOptions
 {
-    public class ServiceOptions
-    {
-        public string AccessToken { get; set; } = null!;
-    }
+    public string AccessToken { get; set; } = null!;
 }

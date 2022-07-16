@@ -32,23 +32,22 @@ using System.Collections.Generic;
 using Nest.NET.Service.Infrastructure.Json;
 using Newtonsoft.Json;
 
-namespace Nest.NET.Service.Model
+namespace Nest.NET.Service.Model;
+
+public class Structure
 {
-    public class Structure
-    {
-        [JsonProperty("structure_id")]
-        public string Id { get; set; } = null!;
-        public string? Name { get; set; }
-        public string? Away { get; set; }
-        [JsonProperty("country_code")]
-        public string? CountryCode { get; set; }
-        [JsonProperty("time_zone")]
-        public string? TimeZone { get; set; }
+    [JsonProperty("structure_id")]
+    public string Id { get; set; } = null!;
+    public string? Name { get; set; }
+    public string? Away { get; set; }
+    [JsonProperty("country_code")]
+    public string? CountryCode { get; set; }
+    [JsonProperty("time_zone")]
+    public string? TimeZone { get; set; }
 
-        [JsonConverter(typeof(ItemIdCollectionJsonConverter<IEnumerable<Thermostat>>))]
-        public IEnumerable<Thermostat> Thermostats { get; set; } = new List<Thermostat>();
+    [JsonConverter(typeof(ItemIdCollectionJsonConverter<IEnumerable<Thermostat>>))]
+    public IEnumerable<Thermostat> Thermostats { get; set; } = new List<Thermostat>();
 
-        [JsonConverter(typeof(ItemIdCollectionJsonConverter<IEnumerable<Where>>))]
-        public IEnumerable<Where> Wheres { get; set; } = new List<Where>();
-    }
+    [JsonConverter(typeof(ItemIdCollectionJsonConverter<IEnumerable<Where>>))]
+    public IEnumerable<Where> Wheres { get; set; } = new List<Where>();
 }

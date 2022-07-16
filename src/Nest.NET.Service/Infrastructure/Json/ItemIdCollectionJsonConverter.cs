@@ -36,65 +36,64 @@ using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Nest.NET.Service.Infrastructure.Json
+namespace Nest.NET.Service.Infrastructure.Json;
+
+public class ItemIdCollectionJsonConverter<T> : ItemIdCollectionJsonConverter
+    where T : IEnumerable
 {
-    public class ItemIdCollectionJsonConverter<T> : ItemIdCollectionJsonConverter
-        where T : IEnumerable
+    public ItemIdCollectionJsonConverter()
+        : base(typeof(T))
     {
-        public ItemIdCollectionJsonConverter()
-            : base(typeof(T))
+    }
+}
+
+public class ItemIdCollectionJsonConverter : JsonConverter
+{
+    private readonly Type _collectionType;
+    private readonly Type _collectionItemType;
+
+    public ItemIdCollectionJsonConverter(Type type)
+    {
+        var genericArguments = type.GetTypeInfo().GetGenericArguments();
+        if (!genericArguments.Any())
         {
+            throw new InvalidOperationException("Expected generic enumerable.");
         }
+
+        _collectionType = type;
+        _collectionItemType = genericArguments[0];
     }
 
-    public class ItemIdCollectionJsonConverter : JsonConverter
+    public override bool CanConvert(Type objectType)
     {
-        private readonly Type _collectionType;
-        private readonly Type _collectionItemType;
+        return _collectionType.GetTypeInfo().IsAssignableFrom(objectType);
+    }
 
-        public ItemIdCollectionJsonConverter(Type type)
-        {
-            var genericArguments = type.GetTypeInfo().GetGenericArguments();
-            if (!genericArguments.Any())
-            {
-                throw new InvalidOperationException("Expected generic enumerable.");
-            }
+    public override void WriteJson(JsonWriter writer, object? value, Newtonsoft.Json.JsonSerializer serializer)
+    {
+        throw new NotSupportedException($"{GetType().Name} can only for deserializing.");
+    }
 
-            _collectionType = type;
-            _collectionItemType = genericArguments[0];
-        }
-
-        public override bool CanConvert(Type objectType)
-        {
-            return _collectionType.GetTypeInfo().IsAssignableFrom(objectType);
-        }
-
-        public override void WriteJson(JsonWriter writer, object? value, Newtonsoft.Json.JsonSerializer serializer)
-        {
-            throw new NotSupportedException($"{GetType().Name} can only for deserializing.");
-        }
-
-        public override object ReadJson(JsonReader reader, Type objectType, object? existingValue, Newtonsoft.Json.JsonSerializer serializer)
-        {
-            var collectionType = typeof(List<>).MakeGenericType(_collectionItemType);
+    public override object ReadJson(JsonReader reader, Type objectType, object? existingValue, Newtonsoft.Json.JsonSerializer serializer)
+    {
+        var collectionType = typeof(List<>).MakeGenericType(_collectionItemType);
             
-            var result = Activator.CreateInstance(collectionType) as IList;
-            if (result == null)
-                throw new InvalidOperationException();
+        var result = Activator.CreateInstance(collectionType) as IList;
+        if (result == null)
+            throw new InvalidOperationException();
 
-            if (reader.TokenType == JsonToken.StartObject)
-            {
-                var jsonObject = JObject.Load(reader);
-                jsonObject.Properties().ForEach(p => result.Add(p.Value.ToObject(_collectionItemType, serializer)));
-            }
-
-            if (reader.TokenType == JsonToken.StartArray)
-            {
-                var jsonArray = JArray.Load(reader);
-                jsonArray.ForEach(t => result.Add(t.ToObject(_collectionItemType, serializer)));
-            }
-
-            return result;
+        if (reader.TokenType == JsonToken.StartObject)
+        {
+            var jsonObject = JObject.Load(reader);
+            jsonObject.Properties().ForEach(p => result.Add(p.Value.ToObject(_collectionItemType, serializer)));
         }
+
+        if (reader.TokenType == JsonToken.StartArray)
+        {
+            var jsonArray = JArray.Load(reader);
+            jsonArray.ForEach(t => result.Add(t.ToObject(_collectionItemType, serializer)));
+        }
+
+        return result;
     }
 }

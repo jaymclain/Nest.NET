@@ -30,10 +30,9 @@
 
 using System.Threading.Tasks;
 
-namespace Nest.NET.Service
+namespace Nest.NET.Service;
+
+internal interface INestServiceProvider
 {
-    internal interface INestServiceProvider
-    {
-        Task<T> GetAsync<T>(string entity, string? entityId = null, string? action = null, object? parameters = null);
-    }
+    Task<T> GetAsync<T>(string entity, string? entityId = null, string? action = null, object? parameters = null);
 }

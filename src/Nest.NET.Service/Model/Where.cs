@@ -1,11 +1,10 @@
 using Newtonsoft.Json;
 
-namespace Nest.NET.Service.Model
+namespace Nest.NET.Service.Model;
+
+public class Where
 {
-    public class Where
-    {
-        [JsonProperty("where_id")]
-        public string Id { get; set; } = null!;
-        public string? Name { get; set; }
-    }
+    [JsonProperty("where_id")]
+    public string Id { get; set; } = null!;
+    public string? Name { get; set; }
 }

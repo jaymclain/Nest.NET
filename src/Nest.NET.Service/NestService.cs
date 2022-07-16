@@ -31,32 +31,31 @@
 using System.Collections.Generic;
 using Nest.NET.Service.Model;
 
-namespace Nest.NET.Service
+namespace Nest.NET.Service;
+
+public class NestService
 {
-    public class NestService
+    private const string StructuresEntity = "structures";
+
+    private readonly INestServiceProvider _serviceProvider;
+
+    public NestService(ServiceOptions serviceOptions)
     {
-        private const string StructuresEntity = "structures";
-
-        private readonly INestServiceProvider _serviceProvider;
-
-        public NestService(ServiceOptions serviceOptions)
-        {
-            _serviceProvider = new NestServiceProvider(serviceOptions);
-        }
-
-        /// <summary>
-        /// Creates the Nest API communications service
-        /// </summary>
-        /// <param name="options">Options for the NestService</param>
-        /// <returns>The NestService</returns>
-        /// <code>
-        ///     var service = NestService.Create(new ServiceOptions { AccessToken = "{Your Access Token}" });
-        /// </code>
-        public static NestService Create(ServiceOptions options)
-        {
-            return new NestService(options);
-        }
-
-        public IEnumerable<Structure> Structures => _serviceProvider.GetAsync<IEnumerable<Structure>>(StructuresEntity).Result;
+        _serviceProvider = new NestServiceProvider(serviceOptions);
     }
+
+    /// <summary>
+    /// Creates the Nest API communications service
+    /// </summary>
+    /// <param name="options">Options for the NestService</param>
+    /// <returns>The NestService</returns>
+    /// <code>
+    ///     var service = NestService.Create(new ServiceOptions { AccessToken = "{Your Access Token}" });
+    /// </code>
+    public static NestService Create(ServiceOptions options)
+    {
+        return new NestService(options);
+    }
+
+    public IEnumerable<Structure> Structures => _serviceProvider.GetAsync<IEnumerable<Structure>>(StructuresEntity).Result;
 }
